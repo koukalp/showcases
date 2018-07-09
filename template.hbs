@@ -1,0 +1,69 @@
+{{#planner-detail/content blockType=blockType}}
+
+  <div class="panorama-header base-mobile__panorama-header">
+    <div class="panorama-header__panorama-image">
+      <img src="{{itinerary.titlePicture.thumbnail.url}}" alt="{{itinerary.titlePicture.caption}}"
+          class="img-responsive">
+    </div>
+  </div>
+
+  <h1>{{itinerary.title}}</h1>
+
+  <div class="base-mobile__travel-preferences">
+    <div class="base-mobile__travel-preferences__item">
+      {{common/start-date
+          startDate=itinerary.startDate
+          disabled=disabledStartDate
+          availabilities=itinerary.availabilities
+          useStartDateRange=itinerary.useStartDateRange
+          showCaret=false
+          dateFormat=(loc 'date.format.dateYear')
+          dateFormatSource=env.dateFormatSource
+          updateDate=updateStartDate
+          calendarIconName='pencil'
+          itinerary=itinerary
+          class='base-mobile__start-date'
+        }}
+    </div>
+    <div class="base-mobile__travel-preferences__item">
+      {{common/nz-svg-icon iconName = "user" iconSize = "21"}} 
+      {{pax-info-formatted itinerary}}
+    </div>
+  </div>
+
+  <h2>
+    Hotel category
+  </h2>
+  <div class="base-mobile__hotel-category-selection base-mobile__hotel-category-selection--length-{{availableHotelCategories.length}}">
+    <div class="row">
+    {{#each availableHotelCategories as |hotelCategory|}}
+      {{#if (eq hotelCategory.refId selectedHotelCategoryRefId)}}
+        <div class="base-mobile__hotel-category-selection__item">
+          <div class="base-mobile__hotel-category-selection__item__content base-mobile__hotel-category-selection__item__content--selected">
+            {{hotelCategory.name}}
+            <div class="base-mobile__hotel-category-selection__item__selected-label">
+              {{common/nz-svg-icon iconName = 'tick'}} Selected
+            </div>
+          </div>
+        </div>
+      {{else}}
+        <div class="base-mobile__hotel-category-selection__item" {{action 'chooseHotelCategory' hotelCategory.refId}}>
+          <div class="base-mobile__hotel-category-selection__item__content">
+            {{hotelCategory.name}}
+            <div class="base-mobile__hotel-category-selection__item__price-label">
+              {{common/app-monetary-value-product priceItem = hotelCategory.priceInfo}}
+              <span class="base-mobile__hotel-category-selection__item__price-label__unit">
+              {{common/app-price-unit-product}}  
+              </span>
+              
+            </div>
+          </div>
+        </div>
+      {{/if}}
+      
+    {{/each}}
+    </div>
+  </div>
+
+{{/planner-detail/content}}
+
